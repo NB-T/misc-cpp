@@ -59,20 +59,9 @@ int main()
     auto start = nbtlog::timestamp();
     for (int i = 0; i < strs.size(); ++i)
     {
-        if (m.count(i % ct) == 0)
-        {
-            m[i % ct] = 1;
-        }
-    }
-    auto end = nbtlog::timestamp();
-    nbtlog::log("GUARDED: \t\t\t", start, end);
-
-    start = nbtlog::timestamp();
-    for (int i = 0; i < strs.size(); ++i)
-    {
         m[i % ct] = 1;
     }
-    end = nbtlog::timestamp();
+    auto end = nbtlog::timestamp();
 
     nbtlog::log("UNGUARDED: \t\t\t", start, end);
 
