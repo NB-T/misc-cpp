@@ -33,6 +33,7 @@ int main()
     }
     nbtlog::log("IJK", nbtlog::timestamp() - start);
 
+    start = nbtlog::timestamp();
     std::vector<std::vector<int>> tmp(n, std::vector<int>(n));
     for (int i = 0; i < n; ++i)
     {
@@ -41,6 +42,18 @@ int main()
             tmp[i][j] = mul2[j][i];
         }
     }
+    nbtlog::log("out-of-place transpose", nbtlog::timestamp() - start);
+
+    tmp = mul2;
+    start = nbtlog::timestamp();
+    for (int i = 0; i < n; ++i)
+    {
+        for (int j = 0; j < i; ++j)
+        {
+            std::swap(tmp[i][j], tmp[j][i]);
+        }
+    }
+    nbtlog::log("in-place transpose", nbtlog::timestamp() - start);
 
     std::vector<std::vector<int>> r2(n, std::vector<int>(n));
     start = nbtlog::timestamp();

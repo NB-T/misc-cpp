@@ -49,7 +49,7 @@ std::vector<std::string> genRandStrs(size_t n, size_t length)
 
 int main()
 {
-    auto strs = genRandStrs(1000000, 25);
+    auto strs = genRandStrs(10000000, 25);
     auto ct = strs.size();
     strs.resize(10 * ct);
     std::copy_n(strs.begin(), ct, strs.begin() + ct);
