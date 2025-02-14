@@ -1,44 +1,32 @@
 #include <iostream>
+#include <numeric>
 #include <utility>
 #include <vector>
 
 #include "nbtlog.hpp"
 
+const int N = 100000000;
+
 int main()
 {
-    /* big arr[10000];
-     * fill with vectors by copy, each of which gets modified at the end
-     * then repeat but call move
-     */
+    std::vector<int> v1(N);
+    std::iota(std::begin(v1), std::end(v1), 0);
 
-    std::vector<std::vector<int>> bigv(10000, std::vector<int>(10000, 0));
+    std::vector<int> v2(N, 0);
 
-    auto start = nbtlog::timestamp();
+    auto t1 = nbtlog::timestamp();
+    std::vector<int> tmp1(v1);
+    v1 = v2;
+    v2 = tmp1;
+    nbtlog::log("NO MOVE", t1, nbtlog::timestamp());
 
-    for (int i = 0; i < 10000; ++i)
-    {
-        std::vector<int> tmp(10000);
-        for (int j = 0; j < 10000; ++j)
-        {
-            tmp[j] = j;
-        }
-        bigv[i] = tmp;
-    }
+    std::swap(v1, v2);
 
-    nbtlog::log("NO MOVE", nbtlog::timestamp() - start);
-
-    start = nbtlog::timestamp();
-    for (int i = 0; i < 10000; ++i)
-    {
-        std::vector<int> tmp(10000);
-        for (int j = 0; j < 10000; ++j)
-        {
-            tmp[j] = j;
-        }
-        bigv[i] = std::move(tmp);
-    }
-
-    nbtlog::log("MOVE", nbtlog::timestamp() - start);
+    t1 = nbtlog::timestamp();
+    std::vector<int> tmp2(std::move(v1));
+    v1 = std::move(v2);
+    v2 = std::move(tmp2);
+    nbtlog::log("MOVE", t1, nbtlog::timestamp());
 
     return EXIT_SUCCESS;
 }
