@@ -25,7 +25,7 @@ int main()
     }
 
     auto elapsedTime = nbtlog::timestamp() - start;
-    nbtlog::log(std::to_string(sum), elapsedTime);
+    nbtlog::log("Unsorted: " + std::to_string(sum), elapsedTime);
 
     // !!! With this, the next loop runs faster.
     std::sort(data, data + arraySize);
@@ -43,5 +43,5 @@ int main()
     }
 
     elapsedTime = nbtlog::timestamp() - start;
-    nbtlog::log(std::to_string(sum), elapsedTime);
+    nbtlog::log("Sorted: " + std::to_string(sum), elapsedTime);
 }
