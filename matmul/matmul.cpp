@@ -31,6 +31,12 @@ int main(int argc, char* argv[])
     const int n = std::stoi(argv[1]);
     const int num_iterations = std::stoi(argv[2]);
 
+    if (num_iterations <= 3)
+    {
+        std::cerr << "Usage: num_iterations must be greater than 3" << std::endl;
+        return EXIT_FAILURE;
+    }
+
     // ensure necessary directories exist using std::filesystem
     std::string out_dir = "out";
     std::filesystem::create_directories(out_dir);
@@ -239,24 +245,6 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("IKJ", nbtlog::timestamp() - start);
-        writeTimeToFile(file8, i, num_iterations, nbtlog::timestamp() - start);
-    }
-
-    std::vector<std::vector<int>> r8(n, std::vector<int>(n));
-    for (int i = 0; i < num_iterations; ++i)
-    {
-        start = nbtlog::timestamp();
-        for (int j = 0; j < n; ++j)
-        {
-            for (int i = 0; i < n; ++i)
-            {
-                for (int k = 0; k < n; ++k)
-                {
-                    r8[i][j] = mul1[i][k] * mul2[k][j];
-                }
-            }
-        }
-        //    nbtlog::log("JIK", nbtlog::timestamp() - start);
         writeTimeToFile(file8, i, num_iterations, nbtlog::timestamp() - start);
     }
 
