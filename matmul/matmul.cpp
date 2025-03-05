@@ -17,7 +17,7 @@ void writeTimeToFile(std::ostream& file, int i, int num_iterations, double time)
 std::string factorfactorfactor(int n, int num_iterations, std::string approach)
 {
     // return std::to_string(n) + "/" + std::to_string(num_iterations) + "_" + approach + ".csv";
-    return "out/" + std::to_string(n) + "/" + std::to_string(num_iterations) + "_" + approach + ".csv";
+    return "out/" + std::to_string(n) + "/" + std::to_string(num_iterations) + "/" + approach + ".csv";
 }
 
 int main(int argc, char* argv[])
@@ -31,18 +31,6 @@ int main(int argc, char* argv[])
     const int n = std::stoi(argv[1]);
     const int num_iterations = std::stoi(argv[2]);
 
-    // open one file for each approach, to collect times
-    /*
-        std::ofstream file1("ijk.csv");
-        std::ofstream file2("transposed_a.csv");
-        std::ofstream file3("transposed_b.csv");
-        std::ofstream file4("jki.csv");
-        std::ofstream file5("kji.csv");
-        std::ofstream file6("kij.csv");
-        std::ofstream file7("ikj.csv");
-        std::ofstream file8("jik.csv");
-    */
-
     // ensure necessary directories exist using std::filesystem
     std::string out_dir = "out";
     std::filesystem::create_directories(out_dir);
@@ -50,6 +38,10 @@ int main(int argc, char* argv[])
     // create subdirs for different values of n
     std::string n_dir = out_dir + "/" + std::to_string(n);
     std::filesystem::create_directories(n_dir);
+
+    // create subdirs for different values of num_iterations
+    std::string num_iterations_dir = n_dir + "/" + std::to_string(num_iterations);
+    std::filesystem::create_directories(num_iterations_dir);
 
     std::ofstream file1(factorfactorfactor(n, num_iterations, "ijk"));
     std::ofstream file2(factorfactorfactor(n, num_iterations, "transposed_a"));
