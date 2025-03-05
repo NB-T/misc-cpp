@@ -1,3 +1,4 @@
+
 #include <algorithm>
 #include <cstdlib>
 #include <ctime>
@@ -42,7 +43,7 @@ bool isTranspose(const std::vector<std::vector<NT>> &A, const std::vector<std::v
 }
 
 template <typename NT, typename IT>
-CSR<NT, IT> gen_rand_csr(IT m, IT n, IT nnz)
+CSR<NT, IT> genRandCSR(IT m, IT n, IT nnz)
 {
     std::vector<NT> nums(nnz);
     std::vector<IT> colidxs(nnz);
@@ -85,13 +86,13 @@ CSR<NT, IT> gen_rand_csr(IT m, IT n, IT nnz)
         colidxs[i] = std::rand() % n;
     }
 
-    nbtlog::log("gen_rand_csr", nbtlog::timestamp() - start);
+    nbtlog::log("genRandCSR ", nbtlog::timestamp() - start);
 
     return std::make_tuple(nums, colidxs, rowptrs);
 }
 
 template <typename NT, typename IT>
-CSR<NT, IT> transpose_csr(const CSR<NT, IT> &csr)
+CSR<NT, IT> transposeCSR(const CSR<NT, IT> &csr)
 {
     auto nums = std::get<0>(csr);
     auto colidxs = std::get<1>(csr);
@@ -170,7 +171,17 @@ std::vector<std::vector<NT>> densify(const CSR<NT, IT> &csr)
 }
 
 template <typename NT>
-void print_matrix(const std::vector<std::vector<NT>> &dense)
+void printVector(const std::vector<NT> &vec)
+{
+    for (auto &elem : vec)
+    {
+        std::cout << static_cast<int>(elem) << ' ';
+    }
+    std::cout << std::endl;
+}
+
+template <typename NT>
+void printMatrix(const std::vector<std::vector<NT>> &dense)
 {
     for (auto &row : dense)
     {
@@ -204,74 +215,37 @@ int main(int argc, char *argv[])
     std::cout << "Generating random CSR matrix with <m> = " + std::to_string(m) + ", <n> = " + std::to_string(n) + ", and <nnz> = " + std::to_string(nnz) << std::endl;
     std::cout << "Note --- <nnz> upper bounds number of non-zero elements. PRNG is hard :(" << std::endl;
 
-    auto csr = gen_rand_csr<_NT, _IT>(m, n, nnz);
+    auto csr = genRandCSR<_NT, _IT>(m, n, nnz);
     auto [nums, colidxs, rowptrs] = csr;
 
-    std::cout << "NUMS" << std::endl;
-
-    for (auto &num : nums)
-    {
-        std::cout << static_cast<int>(num) << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "COLIDXS" << std::endl;
-
-    for (auto &colidx : colidxs)
-    {
-        std::cout << colidx << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "ROWPTRS" << std::endl;
-
-    for (auto &rowptr : rowptrs)
-    {
-        std::cout << rowptr << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "DENSIFY" << std::endl;
+    std::cout << "nums: ";
+    printVector(nums);
+    std::cout << "colidxs: ";
+    printVector(colidxs);
+    std::cout << "rowptrs: ";
+    printVector(rowptrs);
 
     // print_densify(std::make_tuple(nums, colidxs, rowptrs));
     auto matrix1 = densify(csr);
-    print_matrix(matrix1);
+    // printMatrix(matrix1);
 
-    std::cout << std::endl;
-
-    auto tcsr = transpose_csr(csr);
+    auto tcsr = transposeCSR(csr);
     auto [tnums, tcolidxs, trowptrs] = tcsr;
 
-    std::cout << "TNUMS" << std::endl;
-
-    for (auto &tnum : tnums)
-    {
-        std::cout << static_cast<int>(tnum) << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "TCOLIDXS" << std::endl;
-
-    for (auto &tcolidx : tcolidxs)
-    {
-        std::cout << tcolidx << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "TROWPTRS" << std::endl;
-
-    for (auto &trowptr : trowptrs)
-    {
-        std::cout << trowptr << " ";
-    }
-    std::cout << std::endl;
-
-    std::cout << "DENSIFY" << std::endl;
+    std::cout << "tnums: ";
+    printVector(tnums);
+    std::cout << "tcolidxs: ";
+    printVector(tcolidxs);
+    std::cout << "trowptrs: ";
+    printVector(trowptrs);
 
     auto matrix2 = densify(tcsr);
-    print_matrix(matrix2);
+    // printMatrix(matrix2);
 
-    std::cout << std::boolalpha << isTranspose(matrix1, matrix2) << std::endl;
+    bool is_transpose = isTranspose(matrix1, matrix2);
+
+    std::string out = is_transpose ? "\033[1;32mPASS\033[0m" : "\033[1;31mFAIL\033[0m";
+    nbtlog::log("isTranspose ", out);
 
     return EXIT_SUCCESS;
 }
