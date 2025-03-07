@@ -5,22 +5,24 @@
 
 #include <iostream>
 #include <unordered_set>
+#include <utility>
 
 template <int Modulus>
 class Int
 {
    public:
     // constructor
-    Int(int _v)
+    constexpr Int(int _v)
     {
         v = _v % Modulus;
     }
-    Int operator+(Int<Modulus> other)
+
+    constexpr Int operator+(Int<Modulus> other)
     {
         return static_cast<Int<Modulus>>((v + other.v) % Modulus);
     }
 
-    Int& operator=(const Int<Modulus>& other)
+    constexpr Int& operator=(const Int<Modulus>& other)
     {
         if (this == &other)
         {
@@ -30,10 +32,15 @@ class Int
         return *this;
     }
 
-    Int& operator=(int& other)
+    constexpr Int& operator=(int& other)
     {
         v = other % Modulus;
         return *this;
+    }
+
+    constexpr bool operator==(const Int<Modulus>& other) const
+    {
+        return v == other.v;
     }
 
     friend std::ostream& operator<<(std::ostream& os, const Int<Modulus>& i)
@@ -46,11 +53,23 @@ class Int
     int v;
 };
 
+template <int Modulus>
+void test_adddition(Int<Modulus> i1, Int<Modulus> i2)
+{
+    std::cout << i1 << " + " << i2 << " = " << i1 + i2 << " (mod " << Modulus << ")" << std::endl;
+}
+
+template <int... Modulus>
+void run_tests(std::integer_sequence<int, Modulus...>)
+{
+    (test_adddition(Int<Modulus>(3), Int<Modulus>(4)), ...);
+    (test_adddition(Int<Modulus>(3), Int<Modulus>(5)), ...);
+    (test_adddition(Int<Modulus>(3), Int<Modulus>(6)), ...);
+}
+
 int main()
 {
-    Int<4> i1 = 3;
-    Int<4> i2 = 1;
+    run_tests(std::integer_sequence<int, 6, 7>{});
 
-    std::cout << i1 + i2 << std::endl;
     return EXIT_SUCCESS;
 }
