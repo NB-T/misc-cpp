@@ -241,6 +241,63 @@ void run_sumset_tests(std::integer_sequence<int, Moduli...>)
 }
 */
 
+template <int Modulus>
+std::vector<std::unordered_set<Int<Modulus>, Hash<Modulus>>> powerSet()
+{
+    std::vector<std::unordered_set<Int<Modulus>, Hash<Modulus>>> result;
+    int total = 1 << Modulus;
+
+    for (int mask = 0; mask < total; ++mask)
+    {
+        std::unordered_set<Int<Modulus>, Hash<Modulus>> s;
+        for (int i = 0; i < Modulus; ++i)
+        {
+            if (mask & (1 << i))
+            {
+                s.insert(Int<Modulus>(i));
+            }
+        }
+        result.push_back(s);
+    }
+
+    return result;
+}
+
+template <int Modulus>
+void printPowerSet(const std::vector<std::unordered_set<Int<Modulus>, Hash<Modulus>>>& power_set)
+{
+    for (auto s : power_set)
+    {
+        std::cout << "{ ";
+        for (auto i : s)
+        {
+            std::cout << i << " ";
+        }
+        std::cout << "}" << std::endl;
+    }
+}
+
+// for a given modulus m, see how many distinct sets arise from the autosumset operation on the ints mod m
+// i.e., find the size of the image of the power set of ints mod m under autosumset
+template <int Modulus>
+int problem()
+{
+    // generate power set
+    auto power_set = powerSet<Modulus>();
+    // apply sumset
+    std::vector<std::unordered_set<Int<Modulus>, Hash<Modulus>>> image;
+    for (auto s1 : power_set)
+    {
+        auto sumset_s1 = sumset(s1, s1);
+        if (std::find(image.begin(), image.end(), sumset_s1) == image.end())
+        {
+            image.push_back(sumset_s1);
+        }
+    }
+    return image.size();
+    // count see how many distinct
+}
+
 void run_sumset_tests()
 {
     std::cout << "Running sumset tests" << std::endl;
@@ -253,9 +310,30 @@ void run_sumset_tests()
 
 int main()
 {
-    run_addition_tests(std::integer_sequence<int, 6, 7>{});
+    // run_addition_tests(std::integer_sequence<int, 6, 7>{});
 
-    run_sumset_tests();
+    // run_sumset_tests();
+
+    std::cout << "Problem 1: " << problem<1>() << std::endl;
+    std::cout << "Problem 2: " << problem<2>() << std::endl;
+    std::cout << "Problem 3: " << problem<3>() << std::endl;
+    std::cout << "Problem 4: " << problem<4>() << std::endl;
+    std::cout << "Problem 5: " << problem<5>() << std::endl;
+    std::cout << "Problem 6: " << problem<6>() << std::endl;
+    std::cout << "Problem 7: " << problem<7>() << std::endl;
+    std::cout << "Problem 8: " << problem<8>() << std::endl;
+    std::cout << "Problem 9: " << problem<9>() << std::endl;
+    std::cout << "Problem 10: " << problem<10>() << std::endl;
+    std::cout << "Problem 11: " << problem<11>() << std::endl;
+    std::cout << "Problem 12: " << problem<12>() << std::endl;
+    std::cout << "Problem 13: " << problem<13>() << std::endl;
+    std::cout << "Problem 14: " << problem<14>() << std::endl;
+    std::cout << "Problem 15: " << problem<15>() << std::endl;
+    std::cout << "Problem 16: " << problem<16>() << std::endl;
+    std::cout << "Problem 17: " << problem<17>() << std::endl;
+    std::cout << "Problem 18: " << problem<18>() << std::endl;
+    std::cout << "Problem 19: " << problem<19>() << std::endl;
+    std::cout << "Problem 20: " << problem<20>() << std::endl;
 
     return EXIT_SUCCESS;
 }
