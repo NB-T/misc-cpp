@@ -3,8 +3,13 @@
  * Map each member of the power set to its sumset
  */
 
+#define INTCONSTANT(n) \
+    std::integral_constant<int, n> {}
+#define DS(n) distinctSumset(INTCONSTANT(n))
+
 #include <functional>
 #include <iostream>
+#include <type_traits>
 #include <unordered_set>
 #include <utility>
 #include <vector>
@@ -277,10 +282,20 @@ void printPowerSet(const std::vector<std::unordered_set<Int<Modulus>, Hash<Modul
     }
 }
 
+void run_sumset_tests()
+{
+    std::cout << "Running sumset tests" << std::endl;
+
+    std::unordered_set<Int<7>, Hash<7>> s1 = {Int<7>(1), Int<7>(2), Int<7>(3), Int<7>(4)};
+    std::unordered_set<int> expected = {0, 3, 4, 5, 6};
+
+    test_sumset(s1, s1, expected);
+}
+
 // for a given modulus m, see how many distinct sets arise from the autosumset operation on the ints mod m
 // i.e., find the size of the image of the power set of ints mod m under autosumset
 template <int Modulus>
-int problem()
+int solve()
 {
     // generate power set
     auto power_set = powerSet<Modulus>();
@@ -298,14 +313,10 @@ int problem()
     // count see how many distinct
 }
 
-void run_sumset_tests()
+template <int Modulus>
+int distinctSumset(std::integral_constant<int, Modulus>)
 {
-    std::cout << "Running sumset tests" << std::endl;
-
-    std::unordered_set<Int<7>, Hash<7>> s1 = {Int<7>(1), Int<7>(2), Int<7>(3), Int<7>(4)};
-    std::unordered_set<int> expected = {0, 3, 4, 5, 6};
-
-    test_sumset(s1, s1, expected);
+    return solve<Modulus>();
 }
 
 int main()
@@ -314,26 +325,34 @@ int main()
 
     // run_sumset_tests();
 
-    std::cout << "Problem 1: " << problem<1>() << std::endl;
-    std::cout << "Problem 2: " << problem<2>() << std::endl;
-    std::cout << "Problem 3: " << problem<3>() << std::endl;
-    std::cout << "Problem 4: " << problem<4>() << std::endl;
-    std::cout << "Problem 5: " << problem<5>() << std::endl;
-    std::cout << "Problem 6: " << problem<6>() << std::endl;
-    std::cout << "Problem 7: " << problem<7>() << std::endl;
-    std::cout << "Problem 8: " << problem<8>() << std::endl;
-    std::cout << "Problem 9: " << problem<9>() << std::endl;
-    std::cout << "Problem 10: " << problem<10>() << std::endl;
-    std::cout << "Problem 11: " << problem<11>() << std::endl;
-    std::cout << "Problem 12: " << problem<12>() << std::endl;
-    std::cout << "Problem 13: " << problem<13>() << std::endl;
-    std::cout << "Problem 14: " << problem<14>() << std::endl;
-    std::cout << "Problem 15: " << problem<15>() << std::endl;
-    std::cout << "Problem 16: " << problem<16>() << std::endl;
-    std::cout << "Problem 17: " << problem<17>() << std::endl;
-    std::cout << "Problem 18: " << problem<18>() << std::endl;
-    std::cout << "Problem 19: " << problem<19>() << std::endl;
-    std::cout << "Problem 20: " << problem<20>() << std::endl;
+    //#pragma omp parallel sections
+    {
+        //#pragma omp section
+        std::cout << "Problem 1: " << DS(1) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 2: " << DS(2) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 3: " << DS(3) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 4: " << DS(4) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 5: " << DS(5) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 6: " << DS(6) << std::endl;
+        // all of the next sections, through solve 31:
+        //#pragma omp section
+        std::cout << "Problem 7: " << DS(7) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 8: " << DS(8) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 9: " << DS(9) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 10: " << DS(10) << std::endl;
+        //#pragma omp section
+        std::cout << "Problem 11: " << DS(11) << std::endl;
+
+        std::cout << "Problem 12: " << DS(12) << std::endl;
+    }
 
     return EXIT_SUCCESS;
 }
