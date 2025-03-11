@@ -245,7 +245,7 @@ int main(int argc, char *argv[])
     bool is_transpose = isTranspose(matrix1, matrix2);
 
     std::string out = is_transpose ? "\033[1;32mPASS\033[0m" : "\033[1;31mFAIL\033[0m";
-    nbtlog::log("isTranspose ", out);
+    nbtlog::log("isTranspose " + out);
 
     return EXIT_SUCCESS;
 }

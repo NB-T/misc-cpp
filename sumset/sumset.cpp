@@ -328,30 +328,36 @@ int main()
     //#pragma omp parallel sections
     {
         //#pragma omp section
-        std::cout << "Problem 1: " << DS(1) << std::endl;
+        std::cout << "1\t" << DS(1) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 2: " << DS(2) << std::endl;
+        std::cout << "2\t" << DS(2) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 3: " << DS(3) << std::endl;
+        std::cout << "3\t" << DS(3) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 4: " << DS(4) << std::endl;
+        std::cout << "4\t" << DS(4) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 5: " << DS(5) << std::endl;
+        std::cout << "5\t" << DS(5) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 6: " << DS(6) << std::endl;
+        std::cout << "6\t" << DS(6) << std::endl;
         // all of the next sections, through solve 31:
         //#pragma omp section
-        std::cout << "Problem 7: " << DS(7) << std::endl;
+        std::cout << "7\t" << DS(7) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 8: " << DS(8) << std::endl;
+        std::cout << "8\t" << DS(8) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 9: " << DS(9) << std::endl;
+        std::cout << "9\t" << DS(9) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 10: " << DS(10) << std::endl;
+        std::cout << "10\t" << DS(10) << std::endl;
         //#pragma omp section
-        std::cout << "Problem 11: " << DS(11) << std::endl;
-
-        std::cout << "Problem 12: " << DS(12) << std::endl;
+        std::cout << "11\t" << DS(11) << std::endl;
+        //#pragma omp section
+        std::cout << "12\t" << DS(12) << std::endl;
+        //#pragma omp section
+        std::cout << "13\t" << DS(13) << std::endl;
+        //#pragma omp section
+        std::cout << "14\t" << DS(14) << std::endl;
+        //#pragma omp section
+        std::cout << "15\t" << DS(15) << std::endl;
     }
 
     return EXIT_SUCCESS;
