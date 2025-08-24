@@ -3,15 +3,28 @@
 import matplotlib.pyplot as plt
 import numpy
 
+# get dir name from n and num_iterations command line arguments
+import sys
+if len(sys.argv) != 3:
+    print("Usage: python plot.py <n> <num_iterations>")
+    sys.exit(1)
+n = sys.argv[1]
+num_iterations = sys.argv[2]
+import os
+dir_name = f"out/{n}/{num_iterations}"
+if not os.path.exists(dir_name):
+    print(f"Directory {dir_name} does not exist.")
+    sys.exit(1)
+
 # read in CSVs
-ijk = numpy.genfromtxt('ijk.csv', delimiter=',')
-kij = numpy.genfromtxt('kij.csv', delimiter=',')
-jik = numpy.genfromtxt('jik.csv', delimiter=',')
-ikj = numpy.genfromtxt('ikj.csv', delimiter=',')
-jki = numpy.genfromtxt('jki.csv', delimiter=',')
-kji = numpy.genfromtxt('kji.csv', delimiter=',')
-transposed_a = numpy.genfromtxt('transposed_a.csv', delimiter=',')
-transposed_b = numpy.genfromtxt('transposed_b.csv', delimiter=',')
+ijk = numpy.genfromtxt(os.path.join(dir_name, 'ijk.csv'), delimiter=',')
+kij = numpy.genfromtxt(os.path.join(dir_name, 'kij.csv'), delimiter=',')
+jik = numpy.genfromtxt(os.path.join(dir_name, 'jik.csv'), delimiter=',')
+ikj = numpy.genfromtxt(os.path.join(dir_name, 'ikj.csv'), delimiter=',')
+jki = numpy.genfromtxt(os.path.join(dir_name, 'jki.csv'), delimiter=',')
+kji = numpy.genfromtxt(os.path.join(dir_name, 'kji.csv'), delimiter=',')
+transposed_a = numpy.genfromtxt(os.path.join(dir_name, 'transposed_a.csv'), delimiter=',')
+transposed_b = numpy.genfromtxt(os.path.join(dir_name, 'transposed_b.csv'), delimiter=',')
 
 # exclude first 3 values
 ijk = ijk[3:]
@@ -44,7 +57,7 @@ transposed_a_std = numpy.std(transposed_a)
 transposed_b_std = numpy.std(transposed_b)
 
 # set the labels
-labels = ['ijk', 'kij', 'jik', 'ikj', 'jki', 'kji', 'AT', 'BT']
+labels = ['ijk', 'kij', 'jik', 'ikj', 'jki', 'kji', 'transpose A', 'transpose B']
 
 # set the x locations for the groups
 x = numpy.arange(len(labels))
