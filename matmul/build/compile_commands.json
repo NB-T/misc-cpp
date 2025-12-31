@@ -1,0 +1,8 @@
+[
+{
+  "directory": "/home/nb-t/Yale/misc/cpp/matmul/build",
+  "command": "/usr/bin/c++  -I/home/nb-t/Yale/misc/cpp/nbtlog/include -O3 -DNDEBUG -std=gnu++20 -Wall -Wextra -Wpedantic -o CMakeFiles/matmul.dir/matmul.cpp.o -c /home/nb-t/Yale/misc/cpp/matmul/matmul.cpp",
+  "file": "/home/nb-t/Yale/misc/cpp/matmul/matmul.cpp",
+  "output": "CMakeFiles/matmul.dir/matmul.cpp.o"
+}
+]

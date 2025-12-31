@@ -1,9 +1,9 @@
+#include <chrono>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <nbtlog/NBTlog.hpp>
 #include <vector>
-
-#include "nbtlog.hpp"
 
 void writeTimeToFile(std::ostream& file, int i, int num_iterations, double time)
 {
@@ -17,7 +17,8 @@ void writeTimeToFile(std::ostream& file, int i, int num_iterations, double time)
 std::string factorfactorfactor(int n, int num_iterations, std::string approach)
 {
     // return std::to_string(n) + "/" + std::to_string(num_iterations) + "_" + approach + ".csv";
-    return "out/" + std::to_string(n) + "/" + std::to_string(num_iterations) + "/" + approach + ".csv";
+    return "out/" + std::to_string(n) + "/" + std::to_string(num_iterations) + "/" + approach +
+           ".csv";
 }
 
 int main(int argc, char* argv[])
@@ -70,10 +71,11 @@ int main(int argc, char* argv[])
         }
     }
 
+    NBTlog log;
     std::vector<std::vector<int>> r1(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        auto start = nbtlog::timestamp();
+        log.start();
         for (int i = 0; i < n; ++i)
         {
             for (int j = 0; j < n; ++j)
@@ -85,11 +87,16 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("IJK", nbtlog::timestamp() - start);
-        writeTimeToFile(file1, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file1,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     // transpose A
-    auto start = nbtlog::timestamp();
+    log.start();
     std::vector<std::vector<int>> tmp_a(n, std::vector<int>(n));
     for (int i = 0; i < n; ++i)
     {
@@ -99,10 +106,10 @@ int main(int argc, char* argv[])
         }
     }
 
-    nbtlog::log("out-of-place transpose A", nbtlog::timestamp() - start);
+    log.log("out-of-place transpose A");
 
     tmp_a = mul1;
-    start = nbtlog::timestamp();
+    log.start();
     for (int i = 0; i < n; ++i)
     {
         for (int j = 0; j < i; ++j)
@@ -111,12 +118,12 @@ int main(int argc, char* argv[])
         }
     }
 
-    nbtlog::log("in-place transpose A", nbtlog::timestamp() - start);
+    log.log("in-place transpose A");
 
     std::vector<std::vector<int>> r2(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int i = 0; i < n; ++i)
         {
             for (int j = 0; j < n; ++j)
@@ -128,7 +135,12 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("TRANSPOSED A", nbtlog::timestamp() - start);
-        writeTimeToFile(file2, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file2,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     std::vector<std::vector<int>> tmp_b = mul2;
@@ -143,7 +155,7 @@ int main(int argc, char* argv[])
     r2 = std::vector(n, std::vector(n, 0));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int i = 0; i < n; ++i)
         {
             for (int j = 0; j < n; ++j)
@@ -155,13 +167,18 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("TRANSPOSED B", nbtlog::timestamp() - start);
-        writeTimeToFile(file3, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file3,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     std::vector<std::vector<int>> r3(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int j = 0; j < n; ++j)
         {
             for (int k = 0; k < n; ++k)
@@ -173,13 +190,18 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("JKI", nbtlog::timestamp() - start);
-        writeTimeToFile(file4, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file4,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     std::vector<std::vector<int>> r4(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int k = 0; k < n; ++k)
         {
             for (int j = 0; j < n; ++j)
@@ -191,13 +213,18 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("KJI", nbtlog::timestamp() - start);
-        writeTimeToFile(file5, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file5,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     std::vector<std::vector<int>> r5(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int k = 0; k < n; ++k)
         {
             for (int i = 0; i < n; ++i)
@@ -209,13 +236,18 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("KIJ", nbtlog::timestamp() - start);
-        writeTimeToFile(file6, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file6,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     std::vector<std::vector<int>> r6(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int i = 0; i < n; ++i)
         {
             for (int k = 0; k < n; ++k)
@@ -227,13 +259,18 @@ int main(int argc, char* argv[])
             }
         }
         //    nbtlog::log("IKJ", nbtlog::timestamp() - start);
-        writeTimeToFile(file7, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file7,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     std::vector<std::vector<int>> r7(n, std::vector<int>(n));
     for (int i = 0; i < num_iterations; ++i)
     {
-        start = nbtlog::timestamp();
+        log.start();
         for (int i = 0; i < n; ++i)
         {
             for (int k = 0; k < n; ++k)
@@ -245,7 +282,12 @@ int main(int argc, char* argv[])
             }
         }
         // nbtlog::log("IKJ", nbtlog::timestamp() - start);
-        writeTimeToFile(file8, i, num_iterations, nbtlog::timestamp() - start);
+        writeTimeToFile(
+            file8,
+            i,
+            num_iterations,
+            std::chrono::duration<double>(log.CURRENT_TIME() - log.START_TIME).count()
+        );
     }
 
     file1.close();

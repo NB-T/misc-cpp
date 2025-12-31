@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/matmul.dir/matmul.cpp.o -o matmul 

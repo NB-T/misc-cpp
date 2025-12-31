@@ -12,7 +12,7 @@ struct Sensitivity : public NumericalFunctions
 {
     Sensitivity(double v) : value(v) {}
     double getValue() const { return value; }
-    void setValue(dobule v) { value = v; }
+    void setValue(double v) { value = v; }
     double value;
 };
 

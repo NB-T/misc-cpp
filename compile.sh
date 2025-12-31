@@ -1,1 +1,9 @@
-g++ -std=c++2a $1 -Iinclude -Llib -lnbtlog -g -o $(basename "$1" .cpp) -fopenmp -O0 -fsanitize=address
+if [ "$#" -ne 1 ]; then
+    echo "Usage: $0 <>.cpp"
+    exit 1
+fi
+
+EXEC=$1
+
+clang++ -std=c++23 $EXEC.cpp -g -o $(basename "$EXEC") -fopenmp -O0 -fsanitize=address
+# g++ -std=c++2b $EXEC.cpp -o $(basename "$EXEC")
