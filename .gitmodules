@@ -1,3 +1,6 @@
 [submodule "nbtlog"]
 	path = nbtlog
 	url = git@github.com:NB-T/nbtlog.git
+[submodule "omp/external/nbtlog"]
+	path = omp/external/nbtlog
+	url = git@github.com:NB-T/nbtlog.git

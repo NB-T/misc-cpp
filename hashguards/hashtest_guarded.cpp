@@ -11,7 +11,8 @@
 // namespace nbtlog
 //{
 // inline const double timestamp() noexcept;
-// void log(const std::string& m, const std::optional<int>& start = std::nullopt, const std::optional<int>& end = std::nullopt);
+// void log(const std::string& m, const std::optional<int>& start = std::nullopt, const
+// std::optional<int>& end = std::nullopt);
 // }
 
 // Function to generate a single random string of a specified length
