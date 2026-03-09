@@ -6,5 +6,5 @@ fi
 EXEC="${1%.cpp}"
 shift
 
-clang++ -std=c++23 $EXEC.cpp -g -o $(basename "$EXEC") -fopenmp -O0 -fsanitize=address "$@"
+clang++ -std=c++2a $EXEC.cpp -g -o $(basename "$EXEC") -fopenmp -O0 -fsanitize=address "$@"
 # g++ -std=c++2b $EXEC.cpp -o $(basename "$EXEC")
