@@ -4,3 +4,6 @@
 [submodule "omp/external/nbtlog"]
 	path = omp/external/nbtlog
 	url = git@github.com:NB-T/nbtlog.git
+[submodule "external/parlaylib"]
+	path = external/parlaylib
+	url = git@github.com:cmuparlay/parlaylib.git
